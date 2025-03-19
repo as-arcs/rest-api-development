@@ -12,7 +12,5 @@ import org.springframework.test.context.ContextConfiguration;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ContextConfiguration(classes = SimCardActivator.class, loader = SpringBootContextLoader.class)
 public class SimCardActivatorStepDefinitions {
-    @Autowired
-    private TestRestTemplate restTemplate;
 
 }

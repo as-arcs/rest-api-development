@@ -8,7 +8,7 @@ package au.com.telstra.simcardactivator;
  */
 public class SimRequest {
   private String iccid;
-  private String cosutmerEmail;
+  private String costumerEmail;
 
   public String getIccid() {
     return iccid;
@@ -17,11 +17,11 @@ public class SimRequest {
     this.iccid = iccid;
   }
 
-  public String getCosutmerEmail() {
-    return cosutmerEmail;
+  public String getCostumerEmail() {
+    return costumerEmail;
   }
-  public void setCosutmerEmail(String cosutmerEmail) {
-    this.cosutmerEmail = cosutmerEmail;
+  public void setCostumerEmail(String cosutmerEmail) {
+    this.costumerEmail = cosutmerEmail;
   }
 
 }

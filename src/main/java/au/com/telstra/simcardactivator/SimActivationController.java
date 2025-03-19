@@ -2,22 +2,26 @@ package au.com.telstra.simcardactivator;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/sim")
 
-/**
- * REST Controller for handling SIM activation requests.
- * This service receives activation requests
- * and forwards them to an external actuator microservice.
- */
 public class SimActivationController {
-    private final RestTemplate restTemp = new RestTemplate();
+  private final RestTemplate restTemp = new RestTemplate();
+  private final SimCardRepository simCardRepository;
+
+  public SimActivationController(SimCardRepository simCardRepository) {
+    this.simCardRepository = simCardRepository;
+  }
 
   /**
    * Handles a POST request to activate a SIM card.
@@ -37,7 +41,9 @@ public class SimActivationController {
             ActuatorRequest.class);
 
     if (response.getStatusCode() == HttpStatus.OK) {
-      boolean success = response.getBody().isSuccess() && response.getBody() != null;
+      boolean success = response.getBody() != null && response.getBody().isSuccess();
+      SimCard simCard = new SimCard(iccid, request.getCostumerEmail(), success);
+      simCardRepository.save(simCard);
       if (success) {
         System.out.println("Activation: " + iccid);
         return ResponseEntity.ok(iccid + " Successful");
@@ -52,4 +58,16 @@ public class SimActivationController {
               .body("Failed to activate ICCID " + iccid + ". Actuator service error.");
     }
   }
+
+  @GetMapping("/query")
+  public ResponseEntity<?> getSimActivationRecord(@RequestParam Long simCardId) {
+    Optional<SimCard> simCard = simCardRepository.findById(simCardId);
+    if (simCard.isPresent()) {
+      return ResponseEntity.ok(simCard.get());
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+              .body("No record found for SIM Card ID: " + simCardId);
+    }
+  }
+
 }

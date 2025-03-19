@@ -6,7 +6,7 @@ package au.com.telstra.simcardactivator;
  * This class encapsulates the ICCID of the SIM card to be activated.
  */
 public class ActuatorRequest {
-  private String iccid;
+  private final String iccid;
   private boolean success;
 
   /**
