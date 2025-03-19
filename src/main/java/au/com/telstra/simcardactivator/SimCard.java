@@ -19,14 +19,14 @@ public class SimCard {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String iccid;
-  private String costumerEmail;
+  private String customerEmail;
   private boolean active;
 
-  protected SimCard() {}
-  public SimCard(String iccid, String costumerEmail,
+  public SimCard() {}
+  public SimCard(String iccid, String customerEmail,
                  boolean active) {
     this.iccid = iccid;
-    this.costumerEmail = costumerEmail;
+    this.customerEmail = customerEmail;
     this.active = active;
   }
   public void setId(Long id) {
@@ -44,11 +44,11 @@ public class SimCard {
     this.iccid = iccid;
   }
 
-  public String getCostumerEmail() {
-    return costumerEmail;
+  public String getCustomerEmail() {
+    return customerEmail;
   }
-  public void setCostumerEmail(String costumerEmail) {
-    this.costumerEmail = costumerEmail;
+  public void setCustomerEmail(String costumerEmail) {
+    this.customerEmail = costumerEmail;
   }
 
   public boolean isActive() {
